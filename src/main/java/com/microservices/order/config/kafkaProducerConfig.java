@@ -1,6 +1,6 @@
 package com.microservices.order.config;
 
-import com.microservices.order.domain.Order;
+import com.microservices.order.model.OrderDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,12 +29,12 @@ public class kafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, Order> producerFactory(){
+    public ProducerFactory<String, OrderDto> producerFactory(){
         return new DefaultKafkaProducerFactory<>(producerConfig());
     }
 
     @Bean
-    public KafkaTemplate<String, Order> kafkaTemplate(ProducerFactory<String, Order> producerFactory){
+    public KafkaTemplate<String, OrderDto> kafkaTemplate(ProducerFactory<String, OrderDto> producerFactory){
         return new KafkaTemplate<>(producerFactory);
     }
 }
