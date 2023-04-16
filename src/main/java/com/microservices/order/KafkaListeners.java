@@ -15,9 +15,8 @@ public class KafkaListeners {
         this.orderRepository = orderRepository;
     }
 
-    @KafkaListener(topics = "Approve", groupId = "groupId")
-    void listener(String data){
-        System.out.println("Listener receive: " + data);
+    @KafkaListener(topics = {"Approve", "BeerProduce"}, groupId = "groupId")
+    void approveFromBeerStorage(String data){
         String beerName = JsonPath.read(data, "$.beerName");
         int quantity = JsonPath.read(data, "$.quantity");
         String clientName = JsonPath.read(data, "$.name");
@@ -27,4 +26,17 @@ public class KafkaListeners {
                 .clientName(clientName)
                 .build());
     }
+
+    @KafkaListener(topics = "BeerProduce", groupId = "groupId")
+    void approveFromBeerFactory(String data){
+        String beerName = JsonPath.read(data, "$.beerName");
+        int quantity = JsonPath.read(data, "$.quantity");
+        String clientName = JsonPath.read(data, "$.name");
+        orderRepository.save(Order.builder()
+                .beerName(beerName)
+                .quantity(quantity)
+                .clientName(clientName)
+                .build());
+    }
+
 }

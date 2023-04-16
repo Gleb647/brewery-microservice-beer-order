@@ -6,13 +6,11 @@ import com.microservices.order.web.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping("/orders")
 @RestController
 public class OrderController {
 
@@ -38,7 +36,7 @@ public class OrderController {
         kafkaTemplate.send("Orders", orderDto);
     }
 
-    @GetMapping("/orders")
+    @GetMapping()
     public ResponseEntity<List<Order>> getOrders(){
         return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
     }
