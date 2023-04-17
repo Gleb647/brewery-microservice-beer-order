@@ -24,16 +24,12 @@ public class OrderController {
     }
 
     @PostMapping("/make-order")
-    public void makeOrder(
-            @RequestParam("beerName") String beerName,
-            @RequestParam("quantity") Integer quantity,
-            @RequestParam("name") String name){
-        OrderDto orderDto = OrderDto.builder()
-                .beerName(beerName)
-                .name(name)
-                .quantity(quantity)
+    public void makeOrder(@RequestBody OrderDto orderDto){
+        OrderDto new_order = OrderDto.builder()
+                .clientName(orderDto.getClientName())
+                .orderedBeerMap(orderDto.getOrderedBeerMap())
                 .build();
-        kafkaTemplate.send("Orders", orderDto);
+        kafkaTemplate.send("Orders", new_order);
     }
 
     @GetMapping()

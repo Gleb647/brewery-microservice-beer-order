@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Map;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,8 +22,6 @@ public class Order {
 
     private String clientName;
 
-    private String beerName;
-
-    private Integer quantity;
+    private Map<String, Integer> OrderedBeerMap;
 }
 
